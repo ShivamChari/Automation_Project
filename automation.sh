@@ -48,28 +48,4 @@ if [[ -f /tmp/${name}-httpd-logs-${timestamp}.tar ]]; then
 echo "#logs to s3 bucket copied successfully"
 fi
 
-echo "####TASK-3####"
-
-docroot="/var/www/html"
-# Check if inventory file exists
-if [[ ! -f ${docroot}/inventory.html ]]; then
-	#statements
-	echo -e 'Log Type\t-\tTime Created\t-\tType\t-\tSize' > ${docroot}/inventory.html
-echo "#inventory file exists"
-fi
-
-# Inserting Logs into the file
-if [[ -f ${docroot}/inventory.html ]]; then
-	#statements
-	size=$(du -h /tmp/${name}-httpd-logs-${timestamp}.tar | awk '{print $1}')
-	echo -e "httpd-logs\t-\t${timestamp}\t-\ttar\t-\t${size}" >> ${docroot}/inventory.html
-echo "#Logs into the file inserted"
-fi
-
-# Create a cron job that runs service every day
-if [[ ! -f /etc/cron.d/automation ]]; then
-	#statements
-	echo "0 1 * * * root /root/automation.sh" >> /etc/cron.d/automation
-echo "#cron job created"
-fi
 echo "#script executed successfully"
